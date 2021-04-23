@@ -365,8 +365,6 @@ bot.on('inline_query', async (ctx) => {
   }
 });
 
-
-
 mongoose.connect(
   process.env.DB_ATLAS_PATH,
   {
