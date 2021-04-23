@@ -1,4 +1,5 @@
 require('dotenv').config();
+const express = require('express');
 const unirest = require('unirest');
 const fetch = require('node-fetch');
 const mongoose = require('mongoose');
@@ -9,10 +10,10 @@ const client = new MongoClient(process.env.DB_ATLAS_PATH, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
+const app = express();
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 const { enter, leave } = Scenes.Stage;
 
 const createScene = new Scenes.BaseScene('create');
@@ -365,25 +366,28 @@ bot.on('inline_query', async (ctx) => {
   }
 });
 
-mongoose.connect(
-  process.env.DB_ATLAS_PATH,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  },
-  () => {
-    console.log('DB is ready');
-  }
-);
-
-bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.BOT_TOKEN}`)
-bot.startWebhook(`/bot${process.env.BOT_TOKEN}`, null, PORT)
+// bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.BOT_TOKEN}`)
+// bot.startWebhook(`/bot${process.env.BOT_TOKEN}`, null, PORT)
 // console.log('Started with webhook')
-// bot.launch().then(() => {
-//   console.log('bot is ready');
-// });
+
+app.listen(PORT, () => {
+  console.log('server is ready'),
+    mongoose.connect(
+      process.env.DB_ATLAS_PATH,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+      },
+      () => {
+        console.log('DB is ready');
+      }
+    );
+  bot.launch().then(() => {
+    console.log('bot is ready');
+  });
+});
 
 // // bot.startPolling();
 // process.once('SIGINT', () => bot.stop('SIGINT'));
