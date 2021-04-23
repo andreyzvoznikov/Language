@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const { Context, Scenes, session, Telegraf, Markup } = require('telegraf');
 const Word = require('./model/words.model');
-
+const PORT = process.env.PORT || 5000
 const client = new MongoClient(process.env.DB_ATLAS_PATH, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -365,9 +365,7 @@ bot.on('inline_query', async (ctx) => {
   }
 });
 
-bot.launch().then(() => {
-  console.log('bot is ready');
-});
+
 
 mongoose.connect(
   process.env.DB_ATLAS_PATH,
@@ -381,6 +379,13 @@ mongoose.connect(
     console.log('DB is ready');
   }
 );
+
+bot.telegram.setWebhook(`${process.env.URL}/bot${process.env.BOT_TOKEN}`)
+bot.startWebhook(`/bot${process.env.BOT_TOKEN}`, null, PORT)
+console.log('Started with webhook')
+// bot.launch().then(() => {
+//   console.log('bot is ready');
+// });
 
 // bot.startPolling();
 process.once('SIGINT', () => bot.stop('SIGINT'));
