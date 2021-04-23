@@ -388,9 +388,7 @@ app.listen(PORT, () => {
     console.log('bot is ready');
   });
 });
-// bot.launch().then(() => {
-//   console.log('bot is ready');
-// });
+
 // // bot.startPolling();
 // process.once('SIGINT', () => bot.stop('SIGINT'));
 // process.once('SIGTERM', () => bot.stop('SIGTERM'));
