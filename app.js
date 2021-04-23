@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const { Context, Scenes, session, Telegraf, Markup } = require('telegraf');
 const Word = require('./model/words.model');
-const PORT = process.env.PORT || 5000
 const client = new MongoClient(process.env.DB_ATLAS_PATH, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -13,6 +12,7 @@ const client = new MongoClient(process.env.DB_ATLAS_PATH, {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+const PORT = process.env.PORT || 5000
 const { enter, leave } = Scenes.Stage;
 
 const createScene = new Scenes.BaseScene('create');
